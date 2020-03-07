@@ -1,14 +1,11 @@
-package tomatosolutions.najdiprevoz.bootstrap;
+package tomatosolutions.najdiprevoz.config;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-
 @Component
 @Getter
-public class DataHolder {
+public class DataFiller {
 //    public static final List<Pizza> pizzas = new ArrayList<>();
 //
 //    public final PizzaRepository pizzaRepository;
