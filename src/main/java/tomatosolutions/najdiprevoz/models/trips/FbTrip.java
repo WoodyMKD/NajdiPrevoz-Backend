@@ -1,4 +1,4 @@
-package tomatosolutions.najdiprevoz.models;
+package tomatosolutions.najdiprevoz.models.trips;
 
 import lombok.Data;
 

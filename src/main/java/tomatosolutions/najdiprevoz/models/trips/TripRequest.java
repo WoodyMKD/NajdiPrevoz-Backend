@@ -1,10 +1,12 @@
-package tomatosolutions.najdiprevoz.models;
+package tomatosolutions.najdiprevoz.models.trips;
 
 import lombok.Data;
+import tomatosolutions.najdiprevoz.models.auth.User;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 @Data
@@ -14,10 +16,12 @@ public class TripRequest {
     @GeneratedValue
     long id;
 
-    String passenger; // Passenger (user) class
     LocalDateTime startTime;
     int numPassengers;
     String cityFrom; // City class (enum)
     String cityTo; // City class (enum)
-    int status;
+    TripStatus status;
+
+    @ManyToOne
+    User passenger;
 }

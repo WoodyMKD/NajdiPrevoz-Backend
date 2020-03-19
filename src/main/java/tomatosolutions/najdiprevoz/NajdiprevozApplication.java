@@ -10,4 +10,6 @@ public class NajdiprevozApplication {
         SpringApplication.run(NajdiprevozApplication.class, args);
     }
 
+    // TODO: Login/Register Form messages
+
 }
