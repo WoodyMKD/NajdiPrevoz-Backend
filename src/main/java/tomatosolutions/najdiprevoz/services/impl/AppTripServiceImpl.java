@@ -33,7 +33,6 @@ public class AppTripServiceImpl implements AppTripService {
 
     @Override
     public Page<AppTrip> getAppTrips(int page, int size) {
-        Page<AppTrip> asd = this.appTripRepository.findAll(PageRequest.of(page, size, Sort.by("startTime")));
-        return asd;
+        return this.appTripRepository.findAll(PageRequest.of(page, size, Sort.by("startTime")));
     }
 }
