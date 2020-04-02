@@ -1,16 +1,19 @@
 package tomatosolutions.najdiprevoz.controllers;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
-import tomatosolutions.najdiprevoz.models.auth.TelNumber;
+import tomatosolutions.najdiprevoz.payloads.responses.trips.AppTripResponseDTO;
 import tomatosolutions.najdiprevoz.models.trips.AppTrip;
-import tomatosolutions.najdiprevoz.models.Car;
-import tomatosolutions.najdiprevoz.models.auth.User;
+import tomatosolutions.najdiprevoz.payloads.requests.trips.AppTripRequestDTO;
+import tomatosolutions.najdiprevoz.security.CurrentUser;
+import tomatosolutions.najdiprevoz.security.UserPrincipal;
 import tomatosolutions.najdiprevoz.services.AppTripService;
 
-import java.time.LocalDateTime;
+import javax.validation.Valid;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -23,21 +26,23 @@ public class AppTripApi {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public AppTrip createIngredient(@RequestParam("driver") User driver,
-                                    @RequestParam("car") Car car,
-                                    @RequestParam("telNumber") TelNumber telNumber,
-                                    @RequestParam("startTime") LocalDateTime startTime,
-                                    @RequestParam("availableSeats") int availableSeats,
-                                    @RequestParam("cityFrom") String cityFrom,
-                                    @RequestParam("cityTo") String cityTo) {
-        AppTrip result = appTripService.createAppTrip(driver, car, telNumber, startTime, availableSeats, cityFrom, cityTo);
-        return result;
+    public ResponseEntity<AppTrip> createTrip(@CurrentUser UserPrincipal currentUser,
+                                              @RequestBody AppTripRequestDTO tripRequest) {
+        AppTrip newTrip = appTripService.createAppTrip(tripRequest, currentUser);
+        return new ResponseEntity<>(newTrip, HttpStatus.CREATED);
     }
 
     @GetMapping
     public Page<AppTrip> getAppTrips(@RequestHeader(name = "page", defaultValue = "0", required = false) int page,
-                                     @RequestHeader(name = "page-size", defaultValue = "5", required = false) int size) {
+                                     @RequestHeader(name = "page-size", defaultValue = "6", required = false) int size) {
         return this.appTripService.getAppTrips(page, size);
+    }
+
+    @GetMapping("/byCity")
+    public Page<AppTrip> getAppTripsByCity(@RequestHeader(name = "page", defaultValue = "0", required = false) int page,
+                                     @RequestHeader(name = "page-size", defaultValue = "6", required = false) int size,
+                                     @RequestParam(name = "cityFrom") String cityFrom,
+                                     @RequestParam(name = "cityTo") String cityTo) {
+        return this.appTripService.getAppTrips(cityFrom, cityTo, page, size);
     }
 }

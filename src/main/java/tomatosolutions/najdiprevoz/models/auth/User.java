@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.NaturalId;
 import tomatosolutions.najdiprevoz.models.Car;
 
@@ -48,15 +49,18 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "owner")
+    @ToString.Exclude
     private List<TelNumber> telNumbers = new ArrayList<>(0);
 
-    @ManyToMany(mappedBy = "owners")
+    @OneToMany(mappedBy = "owner")
+    @ToString.Exclude
     private List<Car> cars= new ArrayList<>(0);
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @ToString.Exclude
     private Set<Role> roles = new HashSet<>();
 
     public User() { }

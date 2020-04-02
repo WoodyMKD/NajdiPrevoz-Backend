@@ -1,16 +1,14 @@
 package tomatosolutions.najdiprevoz.services;
 
 import org.springframework.data.domain.Page;
-import tomatosolutions.najdiprevoz.models.auth.TelNumber;
 import tomatosolutions.najdiprevoz.models.trips.AppTrip;
-import tomatosolutions.najdiprevoz.models.Car;
-import tomatosolutions.najdiprevoz.models.auth.User;
+import tomatosolutions.najdiprevoz.payloads.requests.trips.AppTripRequestDTO;
+import tomatosolutions.najdiprevoz.security.UserPrincipal;
 
-import java.time.LocalDateTime;
 
 public interface AppTripService {
-    AppTrip createAppTrip(
-            User driver, Car car, TelNumber telNumber, LocalDateTime startTime, int availableSeats, String cityFrom, String cityTo);
+    AppTrip createAppTrip(AppTripRequestDTO tripData, UserPrincipal user);
 
     Page<AppTrip> getAppTrips(int page, int size);
+    Page<AppTrip> getAppTrips(String cityFrom, String cityTo, int page, int size);
 }

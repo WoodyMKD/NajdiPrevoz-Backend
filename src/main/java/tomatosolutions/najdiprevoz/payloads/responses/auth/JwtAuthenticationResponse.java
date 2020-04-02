@@ -1,4 +1,4 @@
-package tomatosolutions.najdiprevoz.payloads.responses;
+package tomatosolutions.najdiprevoz.payloads.responses.auth;
 
 import lombok.Data;
 

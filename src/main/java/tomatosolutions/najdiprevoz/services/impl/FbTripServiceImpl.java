@@ -27,13 +27,13 @@ public class FbTripServiceImpl implements FbTripService {
 
     @Override
     public FbTrip createFbTrip(
-            String driverName, String postDate, String driverFacebookUrl, String postContent) {
+            String driverName, Long postDate, String driverFacebookUrl, String postContent) {
         FbTrip trip = new FbTrip(driverName, postDate, driverFacebookUrl, postContent);
         return this.fbTripRepository.save(trip);
     }
 
     @Override
     public Page<FbTrip> getFbTrips(int page, int size) {
-        return this.fbTripRepository.findAll(PageRequest.of(page, size, Sort.by("postDate")));
+        return this.fbTripRepository.findAll(PageRequest.of(page, size, Sort.by("postDate").descending()));
     }
 }

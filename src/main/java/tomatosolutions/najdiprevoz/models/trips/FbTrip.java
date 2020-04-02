@@ -7,6 +7,7 @@ import tomatosolutions.najdiprevoz.models.auth.User;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
@@ -14,18 +15,18 @@ import java.time.LocalDateTime;
 @Entity(name = "sk_kp")
 public class FbTrip {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
     String driverName;
-    String postDate;
+    Long postDate;
     String driverFacebookUrl;
     String postContent;
 
     public FbTrip() { }
 
     public FbTrip(
-            String driverName, String postDate, String driverFacebookUrl, String postContent) {
+            String driverName, Long postDate, String driverFacebookUrl, String postContent) {
         this.driverName = driverName;
         this.postDate = postDate;
         this.driverFacebookUrl = driverFacebookUrl;

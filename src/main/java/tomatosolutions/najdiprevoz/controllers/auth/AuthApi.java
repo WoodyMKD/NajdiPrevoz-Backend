@@ -1,6 +1,5 @@
 package tomatosolutions.najdiprevoz.controllers.auth;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,10 +16,10 @@ import tomatosolutions.najdiprevoz.models.auth.Role;
 import tomatosolutions.najdiprevoz.models.auth.RoleName;
 import tomatosolutions.najdiprevoz.models.auth.User;
 import tomatosolutions.najdiprevoz.models.exceptions.AppException;
-import tomatosolutions.najdiprevoz.payloads.requests.LoginRequest;
-import tomatosolutions.najdiprevoz.payloads.requests.SignUpRequest;
-import tomatosolutions.najdiprevoz.payloads.responses.ApiResponse;
-import tomatosolutions.najdiprevoz.payloads.responses.JwtAuthenticationResponse;
+import tomatosolutions.najdiprevoz.payloads.requests.auth.LoginRequestDTO;
+import tomatosolutions.najdiprevoz.payloads.requests.auth.SignUpRequestDTO;
+import tomatosolutions.najdiprevoz.payloads.responses.auth.ApiResponse;
+import tomatosolutions.najdiprevoz.payloads.responses.auth.JwtAuthenticationResponse;
 import tomatosolutions.najdiprevoz.repositories.RoleRepository;
 import tomatosolutions.najdiprevoz.repositories.UserRepository;
 import tomatosolutions.najdiprevoz.security.JwtTokenProvider;
@@ -47,7 +46,7 @@ public class AuthApi {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequestDTO loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -63,7 +62,7 @@ public class AuthApi {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequestDTO signUpRequest) {
         if(userRepository.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
                     HttpStatus.BAD_REQUEST);

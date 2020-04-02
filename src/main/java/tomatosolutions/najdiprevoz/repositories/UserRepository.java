@@ -2,7 +2,9 @@ package tomatosolutions.najdiprevoz.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import tomatosolutions.najdiprevoz.models.Car;
 import tomatosolutions.najdiprevoz.models.auth.User;
+import tomatosolutions.najdiprevoz.payloads.requests.auth.CarDTO;
 
 import java.util.List;
 import java.util.Optional;

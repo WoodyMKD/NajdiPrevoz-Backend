@@ -6,7 +6,7 @@ import tomatosolutions.najdiprevoz.models.trips.FbTrip;
 
 public interface FbTripService {
     FbTrip createFbTrip(
-            String driverName, String postDate, String driverFacebookUrl, String postContent);
+            String driverName, Long postDate, String driverFacebookUrl, String postContent);
 
     Page<FbTrip> getFbTrips(int page, int size);
 }

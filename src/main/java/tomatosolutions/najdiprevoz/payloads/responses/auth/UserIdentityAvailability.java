@@ -1,4 +1,4 @@
-package tomatosolutions.najdiprevoz.payloads;
+package tomatosolutions.najdiprevoz.payloads.responses.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

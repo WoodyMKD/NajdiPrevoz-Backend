@@ -14,7 +14,7 @@ import java.util.List;
 public class Car {
     @Id
     @GeneratedValue
-    long id;
+    Long id;
 
     String manufacturer;
     String model;
@@ -22,6 +22,6 @@ public class Car {
     String photoUrl;
 
     @JsonIgnore
-    @ManyToMany
-    List<User> owners;
+    @ManyToOne
+    User owner;
 }

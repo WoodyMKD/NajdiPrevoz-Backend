@@ -1,6 +1,7 @@
 package tomatosolutions.najdiprevoz.models.trips;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.ToString;
 import tomatosolutions.najdiprevoz.models.Car;
@@ -8,6 +9,8 @@ import tomatosolutions.najdiprevoz.models.auth.TelNumber;
 import tomatosolutions.najdiprevoz.models.auth.User;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,7 +18,8 @@ import java.time.LocalDateTime;
 public class AppTrip {
     @Id
     @GeneratedValue
-    long id;
+    @Column(updatable= false)
+    Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
@@ -28,24 +32,22 @@ public class AppTrip {
     @ToString.Exclude
     TelNumber telNumber;
 
-    LocalDateTime startTime;
+    Long startTime;
     int availableSeats;
     int price;
-    String cityFrom; // City class (enum)
-    String cityTo; // City class (enum)
+    String cityFrom;
+    String cityTo;
+
     TripStatus status;
 
-    public AppTrip() { }
+    @Column(nullable = false)
+    private Long creationDate;
 
-    public AppTrip(
-            User driver, Car car, TelNumber telNumber, LocalDateTime startTime, int availableSeats, String cityFrom, String cityTo) {
-        this.driver = driver;
-        this.car = car;
-        this.telNumber = telNumber;
-        this.startTime = startTime;
-        this.availableSeats = availableSeats;
-        this.cityFrom = cityFrom;
-        this.cityTo = cityTo;
-        this.status = TripStatus.ACTIVE;
+    @PrePersist
+    protected void prePersist() {
+        if (this.creationDate == null) creationDate = new Date().getTime();
+        if (this.status == null) status = TripStatus.ACTIVE;
     }
+
+    public AppTrip() { }
 }

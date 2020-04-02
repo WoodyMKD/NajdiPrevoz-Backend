@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping(path = "/api/fbTrips", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/fbTrips")
 public class FbTripApi {
     private final FbTripService fbTripService;
 
@@ -27,7 +27,7 @@ public class FbTripApi {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public FbTrip createFacebookTrip(@RequestParam("driverName") String driverName,
-                                     @RequestParam("postDate") String postDate,
+                                     @RequestParam("postDate") Long postDate,
                                      @RequestParam("driverFacebookUrl") String driverFacebookUrl,
                                      @RequestParam("postContent") String postContent) {
         FbTrip result = fbTripService.createFbTrip(driverName, postDate, driverFacebookUrl, postContent);
@@ -36,7 +36,7 @@ public class FbTripApi {
 
     @GetMapping
     public Page<FbTrip> getFbTrips(@RequestHeader(name = "page", defaultValue = "0", required = false) int page,
-                                     @RequestHeader(name = "page-size", defaultValue = "5", required = false) int size) {
+                                     @RequestHeader(name = "page-size", defaultValue = "6", required = false) int size) {
         return this.fbTripService.getFbTrips(page, size);
     }
 }

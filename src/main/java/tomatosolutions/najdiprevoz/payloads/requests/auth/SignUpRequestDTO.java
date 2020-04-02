@@ -1,4 +1,4 @@
-package tomatosolutions.najdiprevoz.payloads.requests;
+package tomatosolutions.najdiprevoz.payloads.requests.auth;
 
 import lombok.Data;
 import javax.validation.constraints.Email;
@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-public class SignUpRequest {
+public class SignUpRequestDTO {
     @NotBlank
     @Size(min = 4, max = 40)
     private String name;

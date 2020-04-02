@@ -13,15 +13,11 @@ import javax.validation.constraints.Pattern;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class TelNumber {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @NotBlank
+    @Pattern(regexp = "^07([0-9]{7})$")
+    String number;
+
     @JsonIgnore
     @ManyToOne
     User owner;
-
-    @NotBlank
-    @Pattern(regexp = "([0-9]{9})$")
-    String number;
 }
