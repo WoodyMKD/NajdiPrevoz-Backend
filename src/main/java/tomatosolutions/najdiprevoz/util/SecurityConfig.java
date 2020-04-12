@@ -30,11 +30,15 @@ METHOD LEVEL SECURITY
 */
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
+    final
     CustomUserDetailsService customUserDetailsService;
 
-    @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
+
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtAuthenticationEntryPoint unauthorizedHandler) {
+        this.customUserDetailsService = customUserDetailsService;
+        this.unauthorizedHandler = unauthorizedHandler;
+    }
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
@@ -86,8 +90,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/api/auth/**")
                         .permitAll()
                     .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
-                        .permitAll()
-                    .antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**")
                         .permitAll()
                     .anyRequest()
                         .authenticated();

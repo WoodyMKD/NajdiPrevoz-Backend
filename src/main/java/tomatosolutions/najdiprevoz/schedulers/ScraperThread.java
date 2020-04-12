@@ -1,5 +1,7 @@
 package tomatosolutions.najdiprevoz.schedulers;
 
+import tomatosolutions.najdiprevoz.util.Constants;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,8 +10,8 @@ public class ScraperThread extends Thread {
     @Override
     public void run() {
         System.out.println("(JAVA) Scraping started...");
-        String pythonLocation = "\"C:\\Users\\Woody's PC\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe\"";
-        String script = "\"C:\\Users\\Woody's PC\\Desktop\\facebook-scraper-selenium-master\\scraper.py\"";
+        String pythonLocation = Constants.PYTHON_LOCATION;
+        String script = Constants.SCRIPT_LOCATION;
         String arg1 = "-g 125093080970970";
         String arg2 = "-d 3";
         try {

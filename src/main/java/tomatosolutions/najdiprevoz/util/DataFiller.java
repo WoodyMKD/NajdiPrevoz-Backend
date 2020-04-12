@@ -2,30 +2,31 @@ package tomatosolutions.najdiprevoz.util;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;
+import tomatosolutions.najdiprevoz.models.auth.Role;
+import tomatosolutions.najdiprevoz.models.auth.RoleName;
+import tomatosolutions.najdiprevoz.repositories.RoleRepository;
+
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @Getter
 public class DataFiller {
-//    public static final List<Pizza> pizzas = new ArrayList<>();
-//
-//    public final PizzaRepository pizzaRepository;
-//
-//    public DataHolder(PizzaRepository pizzaRepository) {
-//        this.pizzaRepository = pizzaRepository;
-//    }
-//
-//    @PostConstruct
-//    public void init() {
-//        pizzas.add(new Pizza("Margherita", "tomato sauce, mozzarella", new ArrayList<>(), false));
-//        pizzas.add(new Pizza("Carbonara", "fresh cream, mozzarella, bacon", new ArrayList<>(), false));
-//        pizzas.add(new Pizza("Vegetariana", "tomato sauce, mushrooms", new ArrayList<>(), true));
-//        pizzas.add(new Pizza("Calzone", "pizza dough, ricotta, pepperoni, pizza sauce, olive oil", new ArrayList<>(), true));
-//        pizzas.add(new Pizza("Cheddar", "cheddar, tomato sauce", new ArrayList<>(), false));
-//        pizzas.add(new Pizza("Capricciosa", "tomato sauce, cheese, ham", new ArrayList<>(), false));
-//
-//        // Initial save of all objects in relational database
-//        if (this.pizzaRepository.count() == 0) {
-//            this.pizzaRepository.saveAll(pizzas);
-//        }
-//    }
+    public static final List<Role> roles = new ArrayList<>();
+    public final RoleRepository roleRepository;
+
+    public DataFiller(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
+
+    @PostConstruct
+    public void init() {
+        if (this.roleRepository.count() == 0) {
+            roles.add(new Role(RoleName.USER));
+            roles.add(new Role(RoleName.DRIVER));
+            this.roleRepository.saveAll(roles);
+            System.out.println("User roles added!");
+        }
+    }
 }
