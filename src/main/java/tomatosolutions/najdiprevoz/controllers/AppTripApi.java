@@ -1,19 +1,16 @@
 package tomatosolutions.najdiprevoz.controllers;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
-import tomatosolutions.najdiprevoz.payloads.responses.trips.AppTripResponseDTO;
+import tomatosolutions.najdiprevoz.models.trips.TripStatus;
 import tomatosolutions.najdiprevoz.models.trips.AppTrip;
 import tomatosolutions.najdiprevoz.payloads.requests.trips.AppTripRequestDTO;
 import tomatosolutions.najdiprevoz.security.CurrentUser;
 import tomatosolutions.najdiprevoz.security.UserPrincipal;
 import tomatosolutions.najdiprevoz.services.AppTripService;
-
-import javax.validation.Valid;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -34,15 +31,25 @@ public class AppTripApi {
 
     @GetMapping
     public Page<AppTrip> getAppTrips(@RequestHeader(name = "page", defaultValue = "0", required = false) int page,
-                                     @RequestHeader(name = "page-size", defaultValue = "6", required = false) int size) {
-        return this.appTripService.getAppTrips(page, size);
+                                     @RequestHeader(name = "page-size", defaultValue = "6", required = false) int size,
+                                     @RequestParam(name = "status", defaultValue = "all") TripStatus tripStatus) {
+        return this.appTripService.getAppTrips(tripStatus, page, size);
+    }
+
+    @GetMapping("/byUser")
+    public Page<AppTrip> getAppTripsByUser(@CurrentUser UserPrincipal currentUser,
+                                             @RequestHeader(name = "page", defaultValue = "0", required = false) int page,
+                                             @RequestHeader(name = "page-size", defaultValue = "6", required = false) int size,
+                                             @RequestParam(name = "status", defaultValue = "all") TripStatus tripStatus) {
+        return this.appTripService.getUserAppTripsByUser(currentUser.getId(), tripStatus, page, size);
     }
 
     @GetMapping("/byCity")
     public Page<AppTrip> getAppTripsByCity(@RequestHeader(name = "page", defaultValue = "0", required = false) int page,
-                                     @RequestHeader(name = "page-size", defaultValue = "6", required = false) int size,
-                                     @RequestParam(name = "cityFrom") String cityFrom,
-                                     @RequestParam(name = "cityTo") String cityTo) {
-        return this.appTripService.getAppTrips(cityFrom, cityTo, page, size);
+                                           @RequestHeader(name = "page-size", defaultValue = "6", required = false) int size,
+                                           @RequestParam(name = "cityFrom") String cityFrom,
+                                           @RequestParam(name = "cityTo") String cityTo,
+                                           @RequestParam(name = "status", defaultValue = "all") TripStatus tripStatus) {
+        return this.appTripService.getAppTrips(cityFrom, cityTo, tripStatus, page, size);
     }
 }

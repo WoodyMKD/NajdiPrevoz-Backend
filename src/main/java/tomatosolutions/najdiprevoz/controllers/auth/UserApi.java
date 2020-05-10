@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tomatosolutions.najdiprevoz.models.Car;
 import tomatosolutions.najdiprevoz.models.exceptions.BadRequestException;
+import tomatosolutions.najdiprevoz.models.exceptions.ResourceNotFoundException;
 import tomatosolutions.najdiprevoz.payloads.requests.auth.CarDTO;
 import tomatosolutions.najdiprevoz.models.auth.TelNumber;
 import tomatosolutions.najdiprevoz.models.auth.User;
@@ -113,7 +114,7 @@ public class UserApi {
 
     @GetMapping("/user/telNumbers")
     public List<TelNumber> getUserTelNumbers(@CurrentUser UserPrincipal currentUser) {
-        User user = userRepository.findById(currentUser.getId()).get();
+        User user = userRepository.findById(currentUser.getId()).orElseThrow(() -> new ResourceNotFoundException("User", "id", currentUser.getId()));
         return user.getTelNumbers();
     }
 }

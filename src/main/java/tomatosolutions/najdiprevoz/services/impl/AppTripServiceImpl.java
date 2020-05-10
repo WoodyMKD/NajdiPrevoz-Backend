@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import tomatosolutions.najdiprevoz.models.Car;
 import tomatosolutions.najdiprevoz.models.auth.TelNumber;
 import tomatosolutions.najdiprevoz.models.exceptions.BadRequestException;
+import tomatosolutions.najdiprevoz.models.exceptions.ResourceNotFoundException;
 import tomatosolutions.najdiprevoz.models.trips.AppTrip;
 import tomatosolutions.najdiprevoz.models.auth.User;
+import tomatosolutions.najdiprevoz.models.trips.TripStatus;
 import tomatosolutions.najdiprevoz.payloads.requests.trips.AppTripRequestDTO;
 import tomatosolutions.najdiprevoz.repositories.AppTripRepository;
 import tomatosolutions.najdiprevoz.repositories.CarRepository;
@@ -58,12 +60,27 @@ public class AppTripServiceImpl implements AppTripService {
     }
 
     @Override
-    public Page<AppTrip> getAppTrips(int page, int size) {
-        return this.appTripRepository.findAll(PageRequest.of(page, size, Sort.by("startTime").descending()));
+    public Page<AppTrip> getAppTrips(TripStatus status, int page, int size) {
+        return this.appTripRepository.findAllByStatus(status, PageRequest.of(page, size, Sort.by("startTime").descending()));
     }
 
     @Override
-    public Page<AppTrip> getAppTrips(String cityFrom, String cityTo, int page, int size) {
-        return this.appTripRepository.findAllByCityFromAndCityTo(cityFrom, cityTo, PageRequest.of(page, size));
+    public Page<AppTrip> getAppTrips(String cityFrom, String cityTo, TripStatus status, int page, int size) {
+        if(status != TripStatus.ALL) {
+            return this.appTripRepository.findAllByCityFromAndCityToAndStatus(cityFrom, cityTo, status, PageRequest.of(page, size));
+        } else {
+            return this.appTripRepository.findAllByCityFromAndCityTo(cityFrom, cityTo, PageRequest.of(page, size));
+        }
+    }
+
+    @Override
+    public Page<AppTrip> getUserAppTripsByUser(Long userId, TripStatus status, int page, int size) {
+        User driver = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        if(status != TripStatus.ALL) {
+            return this.appTripRepository.findAllByDriverAndStatus(driver, status, PageRequest.of(page, size, Sort.by("startTime").descending()));
+        } else {
+            return this.appTripRepository.findAllByDriver(driver, PageRequest.of(page, size, Sort.by("startTime").descending()));
+        }
     }
 }
