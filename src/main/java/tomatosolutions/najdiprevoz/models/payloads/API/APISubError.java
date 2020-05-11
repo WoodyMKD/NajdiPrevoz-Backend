@@ -1,4 +1,4 @@
-package tomatosolutions.najdiprevoz.payloads.API;
+package tomatosolutions.najdiprevoz.models.payloads.API;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

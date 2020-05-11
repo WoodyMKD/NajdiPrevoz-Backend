@@ -1,6 +1,5 @@
 package tomatosolutions.najdiprevoz.services.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,10 +10,9 @@ import tomatosolutions.najdiprevoz.models.auth.TelNumber;
 import tomatosolutions.najdiprevoz.models.auth.User;
 import tomatosolutions.najdiprevoz.models.exceptions.ResourceNotFoundException;
 import tomatosolutions.najdiprevoz.repositories.CarRepository;
-import tomatosolutions.najdiprevoz.repositories.FbTripRepository;
 import tomatosolutions.najdiprevoz.repositories.TelNumberRepository;
 import tomatosolutions.najdiprevoz.repositories.UserRepository;
-import tomatosolutions.najdiprevoz.utils.security.UserPrincipal;
+import tomatosolutions.najdiprevoz.models.payloads.security.UserPrincipal;
 import tomatosolutions.najdiprevoz.services.UserService;
 
 import java.util.List;

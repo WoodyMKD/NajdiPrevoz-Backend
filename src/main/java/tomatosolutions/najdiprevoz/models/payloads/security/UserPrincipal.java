@@ -1,4 +1,4 @@
-package tomatosolutions.najdiprevoz.utils.security;
+package tomatosolutions.najdiprevoz.models.payloads.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;

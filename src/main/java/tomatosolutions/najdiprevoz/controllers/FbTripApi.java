@@ -3,18 +3,10 @@ package tomatosolutions.najdiprevoz.controllers;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
-import tomatosolutions.najdiprevoz.models.Car;
-import tomatosolutions.najdiprevoz.models.auth.TelNumber;
-import tomatosolutions.najdiprevoz.models.auth.User;
-import tomatosolutions.najdiprevoz.models.trips.AppTrip;
 import tomatosolutions.najdiprevoz.models.trips.FbTrip;
-import tomatosolutions.najdiprevoz.payloads.API.APIResponse;
-import tomatosolutions.najdiprevoz.services.AppTripService;
+import tomatosolutions.najdiprevoz.models.payloads.API.APIResponse;
 import tomatosolutions.najdiprevoz.services.FbTripService;
-
-import java.time.LocalDateTime;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")

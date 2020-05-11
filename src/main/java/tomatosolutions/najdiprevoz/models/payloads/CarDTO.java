@@ -1,4 +1,4 @@
-package tomatosolutions.najdiprevoz.payloads;
+package tomatosolutions.najdiprevoz.models.payloads;
 
 import lombok.Data;
 

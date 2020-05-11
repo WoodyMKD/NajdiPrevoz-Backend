@@ -1,19 +1,23 @@
 package tomatosolutions.najdiprevoz.controllers.auth;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tomatosolutions.najdiprevoz.models.Car;
 import tomatosolutions.najdiprevoz.models.exceptions.BadRequestException;
-import tomatosolutions.najdiprevoz.payloads.API.APIResponse;
-import tomatosolutions.najdiprevoz.payloads.CarDTO;
+import tomatosolutions.najdiprevoz.models.payloads.API.APIResponse;
+import tomatosolutions.najdiprevoz.models.payloads.AppTripDTO;
+import tomatosolutions.najdiprevoz.models.payloads.CarDTO;
 import tomatosolutions.najdiprevoz.models.auth.TelNumber;
+import tomatosolutions.najdiprevoz.models.trips.AppTrip;
 import tomatosolutions.najdiprevoz.utils.annotations.CurrentUser;
 import tomatosolutions.najdiprevoz.services.UserService;
-import tomatosolutions.najdiprevoz.utils.security.UserPrincipal;
+import tomatosolutions.najdiprevoz.models.payloads.security.UserPrincipal;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/user")
@@ -21,9 +25,10 @@ public class UserApi {
     private final UserService userService;
     ModelMapper modelMapper;
 
-    public UserApi(UserService userService) {
+    public UserApi(UserService userService,
+                   ModelMapper modelMapper) {
         this.userService = userService;
-        this.modelMapper = new ModelMapper();
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/me")
@@ -33,17 +38,21 @@ public class UserApi {
     }
 
     @PostMapping("/cars")
-    public ResponseEntity<Car> addUserCar(@CurrentUser UserPrincipal currentUser,
+    public ResponseEntity<APIResponse> addUserCar(@CurrentUser UserPrincipal currentUser,
                                           @RequestBody CarDTO newCar) {
         Car car = modelMapper.map(newCar, Car.class);
         car = userService.addUserCar(currentUser.getId(), car);
-        return new ResponseEntity<>(car, HttpStatus.CREATED);
+        CarDTO result = modelMapper.map(car, CarDTO.class);
+        return new ResponseEntity(new APIResponse(result, HttpStatus.CREATED), HttpStatus.CREATED);
     }
 
     @GetMapping("/cars")
     public ResponseEntity<APIResponse> getUserCars(@CurrentUser UserPrincipal currentUser) {
         List<Car> cars = userService.getUserCars(currentUser.getId());
-        return ResponseEntity.ok(new APIResponse(cars, HttpStatus.OK));
+        List<CarDTO> result = cars.stream()
+                .map((c) -> modelMapper.map(c, CarDTO.class))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(new APIResponse(result, HttpStatus.OK));
     }
 
     @PatchMapping("/cars/{carId}")
@@ -52,8 +61,8 @@ public class UserApi {
                                                      @RequestBody CarDTO updatedCar) {
         Car car = modelMapper.map(updatedCar, Car.class);
         car = userService.updateUserCar(currentUser.getId(), carId, car);
-
-        return ResponseEntity.ok(new APIResponse(car, HttpStatus.OK));
+        CarDTO result = modelMapper.map(car, CarDTO.class);
+        return ResponseEntity.ok(new APIResponse(result, HttpStatus.OK));
     }
 
     @PostMapping("/telNumbers")

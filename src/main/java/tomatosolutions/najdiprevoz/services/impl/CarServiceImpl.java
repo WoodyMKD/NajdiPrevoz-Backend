@@ -8,15 +8,16 @@ import tomatosolutions.najdiprevoz.repositories.UserRepository;
 import tomatosolutions.najdiprevoz.services.CarService;
 
 public class CarServiceImpl implements CarService {
+    ModelMapper modelMapper;
     private final CarRepository carRepository;
     private UserRepository userRepository;
-    ModelMapper modelMapper;
 
     public CarServiceImpl(
+            ModelMapper modelMapper,
             CarRepository carRepository,
             UserRepository userRepository) {
         this.carRepository = carRepository;
         this.userRepository = userRepository;
-        this.modelMapper = new ModelMapper();
+        this.modelMapper = modelMapper;
     }
 }

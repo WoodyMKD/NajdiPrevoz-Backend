@@ -7,10 +7,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tomatosolutions.najdiprevoz.models.auth.User;
 import tomatosolutions.najdiprevoz.models.exceptions.security.EmailAlreadyExistsException;
 import tomatosolutions.najdiprevoz.models.exceptions.security.UsernameAlreadyExistsException;
-import tomatosolutions.najdiprevoz.payloads.security.LoginRequestDTO;
-import tomatosolutions.najdiprevoz.payloads.security.SignUpRequestDTO;
-import tomatosolutions.najdiprevoz.payloads.API.APIResponse;
-import tomatosolutions.najdiprevoz.payloads.security.JwtAuthenticationResponse;
+import tomatosolutions.najdiprevoz.models.payloads.security.LoginRequestDTO;
+import tomatosolutions.najdiprevoz.models.payloads.security.SignUpRequestDTO;
+import tomatosolutions.najdiprevoz.models.payloads.API.APIResponse;
+import tomatosolutions.najdiprevoz.models.payloads.security.JwtAuthenticationResponse;
 import tomatosolutions.najdiprevoz.services.AuthService;
 
 import javax.validation.Valid;

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import tomatosolutions.najdiprevoz.models.exceptions.BadRequestException;
 import tomatosolutions.najdiprevoz.models.exceptions.ResourceNotFoundException;
-import tomatosolutions.najdiprevoz.payloads.API.APIException;
+import tomatosolutions.najdiprevoz.models.payloads.API.APIException;
 import tomatosolutions.najdiprevoz.models.exceptions.security.EmailAlreadyExistsException;
 import tomatosolutions.najdiprevoz.models.exceptions.security.UsernameAlreadyExistsException;
 

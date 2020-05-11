@@ -12,12 +12,10 @@ import tomatosolutions.najdiprevoz.models.exceptions.ResourceNotFoundException;
 import tomatosolutions.najdiprevoz.models.trips.AppTrip;
 import tomatosolutions.najdiprevoz.models.auth.User;
 import tomatosolutions.najdiprevoz.models.trips.TripStatus;
-import tomatosolutions.najdiprevoz.payloads.TripRequestDTO;
 import tomatosolutions.najdiprevoz.repositories.AppTripRepository;
 import tomatosolutions.najdiprevoz.repositories.CarRepository;
 import tomatosolutions.najdiprevoz.repositories.TelNumberRepository;
 import tomatosolutions.najdiprevoz.repositories.UserRepository;
-import tomatosolutions.najdiprevoz.utils.security.UserPrincipal;
 import tomatosolutions.najdiprevoz.services.AppTripService;
 
 @Service
@@ -29,24 +27,25 @@ public class AppTripServiceImpl implements AppTripService {
     ModelMapper modelMapper;
 
     public AppTripServiceImpl(
+            ModelMapper modelMapper,
             AppTripRepository appTripRepository,
             CarRepository carRepository,
             TelNumberRepository telNumberRepository,
             UserRepository userRepository) {
+        this.modelMapper = modelMapper;
         this.appTripRepository = appTripRepository;
         this.carRepository = carRepository;
         this.telNumberRepository = telNumberRepository;
         this.userRepository = userRepository;
-        this.modelMapper = new ModelMapper();
     }
 
     @Override
-    public AppTrip createAppTrip(TripRequestDTO newTrip, UserPrincipal user) {
+    public AppTrip createAppTrip(Long userId, Long carId, AppTrip newTrip) {
         AppTrip resultTrip = modelMapper.map(newTrip, AppTrip.class);
-        User driver = userRepository.findById(user.getId()).orElse(null);
-        Car car = carRepository.findById(newTrip.getCarId()).orElse(null);
-        TelNumber number = telNumberRepository.findById(newTrip.getTelNumber()).orElse(null);
-
+        User driver = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        Car car = carRepository.findById(carId).orElseThrow(() -> new ResourceNotFoundException("Car", "id", newTrip.getCar().getId()));
+        TelNumber number = telNumberRepository.findById(newTrip.getTelNumber().getNumber())
+                .orElseThrow(() -> new ResourceNotFoundException("TelNumber", "number", newTrip.getTelNumber().getNumber()));
         if(driver == null || car == null)
             throw new BadRequestException("Неправилно барање!");
 

@@ -1,4 +1,4 @@
-package tomatosolutions.najdiprevoz.payloads.API;
+package tomatosolutions.najdiprevoz.models.payloads.API;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
