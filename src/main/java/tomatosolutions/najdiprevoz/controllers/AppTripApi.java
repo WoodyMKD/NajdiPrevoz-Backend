@@ -7,9 +7,9 @@ import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 import tomatosolutions.najdiprevoz.models.trips.TripStatus;
 import tomatosolutions.najdiprevoz.models.trips.AppTrip;
-import tomatosolutions.najdiprevoz.payloads.requests.trips.AppTripRequestDTO;
-import tomatosolutions.najdiprevoz.security.CurrentUser;
-import tomatosolutions.najdiprevoz.security.UserPrincipal;
+import tomatosolutions.najdiprevoz.payloads.TripRequestDTO;
+import tomatosolutions.najdiprevoz.annotations.CurrentUser;
+import tomatosolutions.najdiprevoz.utils.security.UserPrincipal;
 import tomatosolutions.najdiprevoz.services.AppTripService;
 
 @RestController
@@ -24,7 +24,7 @@ public class AppTripApi {
 
     @PostMapping
     public ResponseEntity<AppTrip> createTrip(@CurrentUser UserPrincipal currentUser,
-                                              @RequestBody AppTripRequestDTO tripRequest) {
+                                              @RequestBody TripRequestDTO tripRequest) {
         AppTrip newTrip = appTripService.createAppTrip(tripRequest, currentUser);
         return new ResponseEntity<>(newTrip, HttpStatus.CREATED);
     }

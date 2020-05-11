@@ -1,4 +1,4 @@
-package tomatosolutions.najdiprevoz.util;
+package tomatosolutions.najdiprevoz.utils;
 
 public final class Constants {
     public static final String PYTHON_LOCATION = "C:\\Users\\Woody's PC\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe";

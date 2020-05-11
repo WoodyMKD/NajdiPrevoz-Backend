@@ -1,15 +1,19 @@
 package tomatosolutions.najdiprevoz.schedulers;
 
-import tomatosolutions.najdiprevoz.util.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import tomatosolutions.najdiprevoz.utils.Constants;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ScraperThread extends Thread {
+    private static final Logger logger = LoggerFactory.getLogger(ScraperThread.class);
+
     @Override
     public void run() {
-        System.out.println("(JAVA) Scraping started...");
+        logger.info("(JAVA) Scraping started...");
         String pythonLocation = Constants.PYTHON_LOCATION;
         String script = Constants.SCRIPT_LOCATION;
         String arg1 = "-g 125093080970970";
@@ -26,9 +30,9 @@ public class ScraperThread extends Thread {
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
             while ((line = reader.readLine()) != null)
-                System.out.println("(PYTHON): " + line);
+                logger.info("(PYTHON): " + line);
             process.waitFor();
-            System.out.println("(JAVA) Scraping finished...");
+            logger.info("(JAVA) Scraping finished...");
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }

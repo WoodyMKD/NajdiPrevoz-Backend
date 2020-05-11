@@ -1,17 +1,10 @@
-package tomatosolutions.najdiprevoz.util;
+package tomatosolutions.najdiprevoz.utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import javax.persistence.EntityManager;
-import java.util.List;
+import tomatosolutions.najdiprevoz.utils.converters.TripStatusStringToEnumConverter;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {

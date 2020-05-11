@@ -1,4 +1,4 @@
-package tomatosolutions.najdiprevoz.payloads.requests.auth;
+package tomatosolutions.najdiprevoz.payloads.security;
 
 import lombok.Data;
 import javax.validation.constraints.Email;

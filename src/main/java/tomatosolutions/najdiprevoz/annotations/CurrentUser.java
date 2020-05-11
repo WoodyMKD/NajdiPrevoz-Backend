@@ -1,4 +1,4 @@
-package tomatosolutions.najdiprevoz.security;
+package tomatosolutions.najdiprevoz.annotations;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 

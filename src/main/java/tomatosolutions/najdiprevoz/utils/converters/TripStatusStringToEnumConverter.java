@@ -1,7 +1,5 @@
-package tomatosolutions.najdiprevoz.util;
+package tomatosolutions.najdiprevoz.utils.converters;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.springframework.core.convert.converter.Converter;
 import tomatosolutions.najdiprevoz.models.trips.TripStatus;
 

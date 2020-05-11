@@ -1,9 +1,7 @@
-package tomatosolutions.najdiprevoz.util;
+package tomatosolutions.najdiprevoz.utils.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,29 +12,19 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import tomatosolutions.najdiprevoz.security.CustomUserDetailsService;
-import tomatosolutions.najdiprevoz.security.JwtAuthenticationEntryPoint;
-import tomatosolutions.najdiprevoz.security.JwtAuthenticationFilter;
+import tomatosolutions.najdiprevoz.services.impl.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity
-/*
-METHOD LEVEL SECURITY
-@EnableGlobalMethodSecurity(
-        securedEnabled = true,
-        jsr250Enabled = true,
-        prePostEnabled = true
-)
-*/
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     final
-    CustomUserDetailsService customUserDetailsService;
+    UserServiceImpl userServiceImpl;
 
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
 
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtAuthenticationEntryPoint unauthorizedHandler) {
-        this.customUserDetailsService = customUserDetailsService;
+    public SecurityConfig(UserServiceImpl userServiceImpl, JwtAuthenticationEntryPoint unauthorizedHandler) {
+        this.userServiceImpl = userServiceImpl;
         this.unauthorizedHandler = unauthorizedHandler;
     }
 
@@ -48,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
-                .userDetailsService(customUserDetailsService)
+                .userDetailsService(userServiceImpl)
                 .passwordEncoder(passwordEncoder());
     }
 
@@ -87,14 +75,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                         .permitAll()
-                    .antMatchers("/api/auth/**")
-                        .permitAll()
-                    .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
+                    .antMatchers(
+                            "/api/login",
+                            "/api/register",
+                            "/api/checkUsernameAvailability",
+                            "/api/checkEmailAvailability")
                         .permitAll()
                     .anyRequest()
                         .authenticated();
 
-        // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

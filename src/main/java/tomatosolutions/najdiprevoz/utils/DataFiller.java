@@ -1,4 +1,4 @@
-package tomatosolutions.najdiprevoz.util;
+package tomatosolutions.najdiprevoz.utils;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;

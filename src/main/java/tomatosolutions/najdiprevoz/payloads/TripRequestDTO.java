@@ -1,11 +1,11 @@
-package tomatosolutions.najdiprevoz.payloads.requests.trips;
+package tomatosolutions.najdiprevoz.payloads;
 
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Data
-public class AppTripRequestDTO {
+public class TripRequestDTO {
     Long carId;
     String telNumber;
     Long startTime;

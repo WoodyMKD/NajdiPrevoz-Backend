@@ -1,4 +1,4 @@
-package tomatosolutions.najdiprevoz.security;
+package tomatosolutions.najdiprevoz.utils.security;
 
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
