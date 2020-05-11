@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import tomatosolutions.najdiprevoz.models.exceptions.BadRequestException;
 import tomatosolutions.najdiprevoz.models.exceptions.ResourceNotFoundException;
 import tomatosolutions.najdiprevoz.payloads.API.APIException;
 import tomatosolutions.najdiprevoz.models.exceptions.security.EmailAlreadyExistsException;
@@ -32,6 +32,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleResourceNotFound(
             ResourceNotFoundException ex) {
         APIException apiException = new APIException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
+        return buildResponseEntity(apiException);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    protected ResponseEntity<Object> handleBadRequestException(
+            BadRequestException ex) {
+        APIException apiException = new APIException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
         return buildResponseEntity(apiException);
     }
 

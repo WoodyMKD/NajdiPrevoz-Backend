@@ -1,5 +1,6 @@
 package tomatosolutions.najdiprevoz.controllers.auth;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -16,7 +17,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/auth")
 public class AuthApi {
     private final AuthService authService;
 
@@ -47,20 +48,20 @@ public class AuthApi {
                 .fromCurrentContextPath().path("/users/{username}")
                 .buildAndExpand(newUser.getUsername()).toUri();
 
-        return ResponseEntity.created(location).body(new APIResponse("Корисникот е успешно регистриран."));
+        return ResponseEntity.created(location).body(new APIResponse("Корисникот е успешно регистриран.", HttpStatus.OK));
     }
 
     @GetMapping("/checkUsernameAvailability")
     public ResponseEntity<APIResponse> checkUsernameAvailability(@RequestParam(value="username") String username){
         boolean isAvailable = authService.isUsernameAvailable(username);
         if (!isAvailable) throw new UsernameAlreadyExistsException(username);
-        return ResponseEntity.ok(new APIResponse(isAvailable));
+        return ResponseEntity.ok(new APIResponse(isAvailable, HttpStatus.OK));
     }
 
     @GetMapping("/checkEmailAvailability")
     public ResponseEntity<APIResponse> checkEmailAvailability(@RequestParam(value = "email") String email) {
         boolean isAvailable = authService.isEmailAvailable(email);
         if (!isAvailable) throw new EmailAlreadyExistsException(email);
-        return ResponseEntity.ok(new APIResponse(isAvailable));
+        return ResponseEntity.ok(new APIResponse(isAvailable, HttpStatus.OK));
     }
 }

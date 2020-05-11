@@ -1,4 +1,4 @@
-package tomatosolutions.najdiprevoz.schedulers;
+package tomatosolutions.najdiprevoz.utils.schedulers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

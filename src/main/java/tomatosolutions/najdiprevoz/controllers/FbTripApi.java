@@ -2,6 +2,7 @@ package tomatosolutions.najdiprevoz.controllers;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 import tomatosolutions.najdiprevoz.models.Car;
@@ -9,6 +10,7 @@ import tomatosolutions.najdiprevoz.models.auth.TelNumber;
 import tomatosolutions.najdiprevoz.models.auth.User;
 import tomatosolutions.najdiprevoz.models.trips.AppTrip;
 import tomatosolutions.najdiprevoz.models.trips.FbTrip;
+import tomatosolutions.najdiprevoz.payloads.API.APIResponse;
 import tomatosolutions.najdiprevoz.services.AppTripService;
 import tomatosolutions.najdiprevoz.services.FbTripService;
 
@@ -26,17 +28,18 @@ public class FbTripApi {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public FbTrip createFacebookTrip(@RequestParam("driverName") String driverName,
+    public ResponseEntity<APIResponse> createFacebookTrip(@RequestParam("driverName") String driverName,
                                      @RequestParam("postDate") Long postDate,
                                      @RequestParam("driverFacebookUrl") String driverFacebookUrl,
                                      @RequestParam("postContent") String postContent) {
-        FbTrip result = fbTripService.createFbTrip(driverName, postDate, driverFacebookUrl, postContent);
-        return result;
+        FbTrip trip = fbTripService.createFbTrip(driverName, postDate, driverFacebookUrl, postContent);
+        return new ResponseEntity(new APIResponse(trip, HttpStatus.CREATED), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public Page<FbTrip> getFbTrips(@RequestHeader(name = "page", defaultValue = "0", required = false) int page,
-                                     @RequestHeader(name = "page-size", defaultValue = "6", required = false) int size) {
-        return this.fbTripService.getFbTrips(page, size);
+    public ResponseEntity<APIResponse> getFbTrips(@RequestHeader(name = "page", defaultValue = "0", required = false) int page,
+                                                               @RequestHeader(name = "page-size", defaultValue = "6", required = false) int size) {
+        Page<FbTrip> trips = fbTripService.getFbTrips(page, size);
+        return ResponseEntity.ok(new APIResponse(trips, HttpStatus.OK));
     }
 }

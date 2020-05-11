@@ -48,7 +48,7 @@ public class AppTripServiceImpl implements AppTripService {
         TelNumber number = telNumberRepository.findById(newTrip.getTelNumber()).orElse(null);
 
         if(driver == null || car == null)
-            throw new BadRequestException("Настана грешка, обидете се повторно!");
+            throw new BadRequestException("Неправилно барање!");
 
         resultTrip.setDriver(driver);
         resultTrip.setCar(car);

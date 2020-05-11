@@ -1,14 +1,9 @@
-package tomatosolutions.najdiprevoz.schedulers;
+package tomatosolutions.najdiprevoz.utils.schedulers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import tomatosolutions.najdiprevoz.utils.security.JwtTokenProvider;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 
 @Component
 public class FacebookPostsScheduler {

@@ -17,10 +17,10 @@ public class APIResponse {
     private LocalDateTime timestamp;
     private Object response;
 
-    public APIResponse(Object response) {
+    public APIResponse(Object response, HttpStatus status) {
         this.timestamp = LocalDateTime.now();
         this.response = response;
-        this.statusCode = 201;
-        this.status = HttpStatus.OK;
+        this.statusCode = status.value();
+        this.status = status;
     }
 }

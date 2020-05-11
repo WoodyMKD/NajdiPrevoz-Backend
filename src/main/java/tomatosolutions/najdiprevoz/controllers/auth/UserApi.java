@@ -5,15 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tomatosolutions.najdiprevoz.models.Car;
-import tomatosolutions.najdiprevoz.models.exceptions.ResourceNotFoundException;
+import tomatosolutions.najdiprevoz.models.exceptions.BadRequestException;
 import tomatosolutions.najdiprevoz.payloads.API.APIResponse;
 import tomatosolutions.najdiprevoz.payloads.CarDTO;
 import tomatosolutions.najdiprevoz.models.auth.TelNumber;
-import tomatosolutions.najdiprevoz.models.auth.User;
-import tomatosolutions.najdiprevoz.repositories.CarRepository;
-import tomatosolutions.najdiprevoz.repositories.TelNumberRepository;
-import tomatosolutions.najdiprevoz.repositories.UserRepository;
-import tomatosolutions.najdiprevoz.annotations.CurrentUser;
+import tomatosolutions.najdiprevoz.utils.annotations.CurrentUser;
 import tomatosolutions.najdiprevoz.services.UserService;
 import tomatosolutions.najdiprevoz.utils.security.UserPrincipal;
 
@@ -32,8 +28,8 @@ public class UserApi {
 
     @GetMapping("/me")
     public ResponseEntity<APIResponse> getCurrentUser(@CurrentUser UserPrincipal currentUser) {
-        if(currentUser == null) throw new ResourceNotFoundException("UserPrincipal", "currentUser", null);
-        return ResponseEntity.ok(new APIResponse(currentUser));
+        if(currentUser == null) throw new BadRequestException("Неправилно барање!");
+        return ResponseEntity.ok(new APIResponse(currentUser, HttpStatus.OK));
     }
 
     @PostMapping("/cars")
@@ -47,7 +43,7 @@ public class UserApi {
     @GetMapping("/cars")
     public ResponseEntity<APIResponse> getUserCars(@CurrentUser UserPrincipal currentUser) {
         List<Car> cars = userService.getUserCars(currentUser.getId());
-        return ResponseEntity.ok(new APIResponse(cars));
+        return ResponseEntity.ok(new APIResponse(cars, HttpStatus.OK));
     }
 
     @PatchMapping("/cars/{carId}")
@@ -57,7 +53,7 @@ public class UserApi {
         Car car = modelMapper.map(updatedCar, Car.class);
         car = userService.updateUserCar(currentUser.getId(), carId, car);
 
-        return ResponseEntity.ok(new APIResponse(car));
+        return ResponseEntity.ok(new APIResponse(car, HttpStatus.OK));
     }
 
     @PostMapping("/telNumbers")
@@ -65,12 +61,12 @@ public class UserApi {
                                                       @RequestBody TelNumber telNumber) {
 
         TelNumber newNumber = userService.addUserTelNumber(currentUser.getId(), telNumber);
-        return ResponseEntity.ok(new APIResponse(newNumber));
+        return ResponseEntity.ok(new APIResponse(newNumber, HttpStatus.OK));
     }
 
     @GetMapping("/telNumbers")
     public ResponseEntity<APIResponse> getUserTelNumbers(@CurrentUser UserPrincipal currentUser) {
         List<TelNumber> telNumbers = userService.getUserTelNumbers(currentUser.getId());
-        return ResponseEntity.ok(new APIResponse(telNumbers));
+        return ResponseEntity.ok(new APIResponse(telNumbers, HttpStatus.OK));
     }
 }

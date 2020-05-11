@@ -2,6 +2,7 @@ package tomatosolutions.najdiprevoz.utils.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -73,13 +74,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.jpg",
                         "/**/*.html",
                         "/**/*.css",
-                        "/**/*.js")
+                        "/**/*.js",
+                        "/api/auth/*")
                         .permitAll()
-                    .antMatchers(
-                            "/api/login",
-                            "/api/register",
-                            "/api/checkUsernameAvailability",
-                            "/api/checkEmailAvailability")
+                    .antMatchers(HttpMethod.GET,
+                            "/api/appTrips",
+                            "/api/appTrips/byCity",
+                            "/api/fbTrips")
                         .permitAll()
                     .anyRequest()
                         .authenticated();
