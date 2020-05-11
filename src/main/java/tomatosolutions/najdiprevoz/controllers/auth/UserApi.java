@@ -50,6 +50,7 @@ public class UserApi {
     public ResponseEntity<APIResponse> getUserCars(@CurrentUser UserPrincipal currentUser) {
         List<Car> cars = userService.getUserCars(currentUser.getId());
         List<CarDTO> result = cars.stream()
+                .filter((c) -> !c.isDeleted())
                 .map((c) -> modelMapper.map(c, CarDTO.class))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(new APIResponse(result, HttpStatus.OK));
@@ -65,10 +66,16 @@ public class UserApi {
         return ResponseEntity.ok(new APIResponse(result, HttpStatus.OK));
     }
 
+    @DeleteMapping("/cars")
+    public ResponseEntity<APIResponse> deleteUserCar(@CurrentUser UserPrincipal currentUser,
+                                                     @RequestBody CarDTO toDelete) {
+        userService.deleteUserCar(currentUser.getId(), toDelete.getId());
+        return ResponseEntity.ok(new APIResponse(true, HttpStatus.OK));
+    }
+
     @PostMapping("/telNumbers")
     public ResponseEntity<APIResponse> addUserTelNumber(@CurrentUser UserPrincipal currentUser,
                                                       @RequestBody TelNumber telNumber) {
-
         TelNumber newNumber = userService.addUserTelNumber(currentUser.getId(), telNumber);
         return ResponseEntity.ok(new APIResponse(newNumber, HttpStatus.OK));
     }
@@ -77,5 +84,18 @@ public class UserApi {
     public ResponseEntity<APIResponse> getUserTelNumbers(@CurrentUser UserPrincipal currentUser) {
         List<TelNumber> telNumbers = userService.getUserTelNumbers(currentUser.getId());
         return ResponseEntity.ok(new APIResponse(telNumbers, HttpStatus.OK));
+    }
+
+    @DeleteMapping("/telNumbers")
+    public ResponseEntity<APIResponse> deleteUserTelNumbers(@CurrentUser UserPrincipal currentUser,
+                                                            @RequestBody TelNumber telNumber) {
+        userService.deleteUserTelNumber(currentUser.getId(), telNumber.getNumber());
+        return ResponseEntity.ok(new APIResponse(true, HttpStatus.OK));
+    }
+
+    @GetMapping("/canCreateTrip")
+    public ResponseEntity<APIResponse> canCreateTrip(@CurrentUser UserPrincipal currentUser) {
+        Boolean result = userService.canCreateTrip(currentUser.getId());
+        return ResponseEntity.ok(new APIResponse(result, HttpStatus.OK));
     }
 }

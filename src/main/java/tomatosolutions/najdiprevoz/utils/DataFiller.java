@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 @Getter
 public class DataFiller {
-    private static final Logger logger = LoggerFactory.getLogger(FacebookPostsScheduler.class);
+    private static final Logger logger = LoggerFactory.getLogger(DataFiller.class);
 
     public static final List<Role> roles = new ArrayList<>();
     public final RoleRepository roleRepository;

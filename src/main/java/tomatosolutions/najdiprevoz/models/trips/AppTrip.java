@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.Where;
 import tomatosolutions.najdiprevoz.models.Car;
 import tomatosolutions.najdiprevoz.models.auth.TelNumber;
 import tomatosolutions.najdiprevoz.models.auth.User;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity(name = "app_trips")
+@Where(clause = "deleted = false")
 public class AppTrip {
     @Id
     @GeneratedValue
@@ -42,6 +44,9 @@ public class AppTrip {
 
     @Column(nullable = false)
     private Long creationDate;
+
+    @Column(name = "deleted")
+    private boolean deleted = false;
 
     @PrePersist
     protected void prePersist() {

@@ -16,6 +16,7 @@ import tomatosolutions.najdiprevoz.models.payloads.security.UserPrincipal;
 import tomatosolutions.najdiprevoz.services.UserService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -85,6 +86,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public void deleteUserCar(Long userId, Long carId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        Car toDelete = user.getCars().stream()
+                .filter((c) -> c.getId().equals(carId))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Car", "id", carId));
+        toDelete.setDeleted(true);
+        this.carRepository.save(toDelete);
+    }
+
+    @Override
     public TelNumber addUserTelNumber(Long userId, TelNumber newNumber) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
         newNumber.setOwner(user);
@@ -94,6 +106,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public List<TelNumber> getUserTelNumbers(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-        return user.getTelNumbers();
+        return user.getTelNumbers().stream()
+                .filter((t) -> !t.isDeleted())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteUserTelNumber(Long userId, String number) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        TelNumber toDelete = user.getTelNumbers().stream()
+                .filter((t) -> t.getNumber().equals(number))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("TelNumber", "number", number));
+        toDelete.setDeleted(true);
+        this.telNumberRepository.save(toDelete);
+    }
+
+    @Override
+    public Boolean canCreateTrip(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        return user.getCars().stream().filter((c) -> !c.isDeleted()).count() > 0 &&
+                user.getTelNumbers().stream().filter((t) -> !t.isDeleted()).count() > 0;
     }
 }
