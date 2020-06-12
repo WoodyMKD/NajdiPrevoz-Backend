@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class FacebookPostsScheduler {
     private static final Logger logger = LoggerFactory.getLogger(FacebookPostsScheduler.class);
 
-    @Scheduled(fixedDelay = 600000)
+    @Scheduled(fixedDelay = 3600000)
     public void getFacebookPostsAsync() {
         Thread fbScraper = new ScraperThread();
         logger.info("Executing python script...");

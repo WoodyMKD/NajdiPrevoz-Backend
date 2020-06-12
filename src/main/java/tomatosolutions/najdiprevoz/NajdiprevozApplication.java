@@ -16,6 +16,7 @@ public class NajdiprevozApplication {
     }
 
     // TODO: Login/Register Form messages
+    // mvn clean install spring-boot:repackage
 
     @Bean
     public ModelMapper modelMapper() {

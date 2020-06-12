@@ -10,18 +10,16 @@ import tomatosolutions.najdiprevoz.models.payloads.security.UserPrincipal;
 import tomatosolutions.najdiprevoz.models.trips.AppTrip;
 
 public class AppTripPropertyMap extends PropertyMap<AppTrip, AppTripDTO> {
-    Converter<User, UserDTO> userToUserPrincipal = new Converter<User, UserDTO>() {
-        public UserDTO convert(MappingContext<User, UserDTO> context) {
-            User source = context.getSource();
-            UserDTO destination = new UserDTO();
+    Converter<User, UserDTO> userToUserPrincipal = context -> {
+        User source = context.getSource();
+        UserDTO destination = new UserDTO();
 
-            if(source.getId() != null) {
-                destination.setId(source.getId());
-                destination.setName(source.getName());
-            }
-
-            return destination;
+        if(source.getId() != null) {
+            destination.setId(source.getId());
+            destination.setName(source.getName());
         }
+
+        return destination;
     };
 
     @Override

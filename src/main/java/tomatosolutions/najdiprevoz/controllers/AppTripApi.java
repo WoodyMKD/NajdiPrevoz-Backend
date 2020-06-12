@@ -15,7 +15,7 @@ import tomatosolutions.najdiprevoz.models.payloads.security.UserPrincipal;
 import tomatosolutions.najdiprevoz.services.AppTripService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://134.122.92.122:8080"})
 @RequestMapping(path = "/api/appTrips", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 public class AppTripApi {
     private final AppTripService appTripService;

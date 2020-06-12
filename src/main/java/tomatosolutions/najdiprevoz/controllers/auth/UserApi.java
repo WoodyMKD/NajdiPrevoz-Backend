@@ -77,7 +77,7 @@ public class UserApi {
     public ResponseEntity<APIResponse> addUserTelNumber(@CurrentUser UserPrincipal currentUser,
                                                       @RequestBody TelNumber telNumber) {
         TelNumber newNumber = userService.addUserTelNumber(currentUser.getId(), telNumber);
-        return ResponseEntity.ok(new APIResponse(newNumber, HttpStatus.OK));
+        return new ResponseEntity(new APIResponse(newNumber, HttpStatus.CREATED), HttpStatus.CREATED);
     }
 
     @GetMapping("/telNumbers")

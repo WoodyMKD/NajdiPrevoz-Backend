@@ -9,7 +9,7 @@ import tomatosolutions.najdiprevoz.models.payloads.API.APIResponse;
 import tomatosolutions.najdiprevoz.services.FbTripService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://134.122.92.122:8080"})
 @RequestMapping(path = "/api/fbTrips")
 public class FbTripApi {
     private final FbTripService fbTripService;
